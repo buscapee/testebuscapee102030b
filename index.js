@@ -14,14 +14,18 @@ const app = express();
 const server = createServer(app);
 const io = new SocketIOServer(server, {
   cors: {
-    origin: '*',
+    origin: 'https://buscape1030frontend.vercel.app',
     methods: ['GET', 'POST', 'PUT'],
-  },
+    credentials: true
+  }
 });
 app.set('io', io);
 
 // Configuração do CORS
-app.use(cors());
+app.use(cors({
+  origin: 'https://buscape1030frontend.vercel.app',
+  credentials: true
+}));
 
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
@@ -32,6 +36,6 @@ connectdb();
 app.use('/api', AppRoutes);
 
 server.listen(port, () => {
-  console.log(`Servidor HTTP/WebSocket online na porta ${port}, acesse: http://localhost:${port}/`);
+  console.log(`Servidor HTTP/WebSocket online na porta ${port}, acesse: https://testebuscapee102030b.onrender.com`);
 });
 //aa
