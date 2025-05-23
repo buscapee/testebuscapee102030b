@@ -38,7 +38,7 @@ class ServicePointController {
   // Encerrar turno
   async encerrarTurno(req, res) {
     try {
-      const { nickname } = req.body;
+      const { nickname, admin } = req.body;
       const turno = await ServicePoint.findOne({ nickname, aberto: true });
       if (!turno) {
         return res.status(404).json({ error: 'Nenhum turno aberto encontrado.' });
@@ -57,9 +57,9 @@ class ServicePointController {
         }
       });
       await turno.save();
-      // Adicionar medalhas ao usuário
-      if (totalMin > 0) {
-        const horas = Math.floor(totalMin / 60);
+      // Adicionar medalhas ao usuário SOMENTE se o próprio usuário finalizou
+      if (admin === nickname && totalMin > 0) {
+        const horas = Math.floor(totalMin / 10);
         if (horas > 0) {
           const user = await User.findOne({ nickname });
           let medalsAtual = 0;
